@@ -1,13 +1,92 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
-  </head>
-  <body>
-    <div id="app">
-      <form action="<%- PayGateWay %>" method="post">
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="app">
+    <div class="container py-5">
+      <h1 class="text-center mb-4">再次確認</h1>
+
+      <!-- <div class="row justify-content-center">
+            <div class="col-md-8">
+                <video id="videoPlayer" class="w-100 rounded border" controls>
+                    <source id="videoSource" src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <form class="input-group">
+                    <input id="videoUrl" type="text" class="form-control" placeholder="Enter video URL here...">
+                    <button class="btn btn-primary" type="button" onclick="loadVideo()">Load Video</button>
+                </form>
+            </div>
+        </div> -->
+
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+          <form action="<%- PayGateWay %>" method="post" class="bg-white p-4 rounded shadow">
+            <div class="mb-3">
+              <label for="merchantID" class="form-label">Merchant ID</label>
+              <input type="text" id="merchantID" name="MerchantID" class="form-control" value="<%- MerchantID %>">
+            </div>
+            <div class="mb-3">
+              <label for="tradeSha" class="form-label">Trade SHA</label>
+              <input type="text" id="tradeSha" name="TradeSha" class="form-control" value="<%- order.shaEncrypt %>">
+            </div>
+            <div class="mb-3">
+              <label for="tradeInfo" class="form-label">Trade Info</label>
+              <input type="text" id="tradeInfo" name="TradeInfo" class="form-control" value="<%- order.aesEncrypt %>">
+            </div>
+            <div class="mb-3">
+              <label for="timeStamp" class="form-label">Time Stamp</label>
+              <input type="text" id="timeStamp" name="TimeStamp" class="form-control" value="<%- order.TimeStamp %>">
+            </div>
+            <div class="mb-3">
+              <label for="version" class="form-label">Version</label>
+              <input type="text" id="version" name="Version" class="form-control" value="<%- Version %>">
+            </div>
+            <div class="mb-3">
+              <label for="notifyUrl" class="form-label">Notify URL</label>
+              <input type="text" id="notifyUrl" name="NotifyUrl" class="form-control" value="<%- NotifyUrl %>">
+            </div>
+            <div class="mb-3">
+              <label for="returnUrl" class="form-label">Return URL</label>
+              <input type="text" id="returnUrl" name="ReturnUrl" class="form-control" value="<%- ReturnUrl %>">
+            </div>
+            <div class="mb-3">
+              <label for="merchantOrderNo" class="form-label">Merchant Order No</label>
+              <input type="text" id="merchantOrderNo" name="MerchantOrderNo" class="form-control"
+                value="<%- order.MerchantOrderNo %>">
+            </div>
+            <div class="mb-3">
+              <label for="amt" class="form-label">Amount</label>
+              <input type="text" id="amt" name="Amt" class="form-control" value="<%- order.Amt %>">
+            </div>
+            <div class="mb-3">
+              <label for="itemDesc" class="form-label">Item Description</label>
+              <input type="text" id="itemDesc" name="ItemDesc" class="form-control" value="<%- order.ItemDesc %>">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" name="Email" class="form-control" value="<%- order.Email %>">
+            </div>
+            <button type="submit" class="btn btn-success w-100">送出</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- <form action="<%- PayGateWay %>" method="post">
         <input type="text" name="MerchantID" value="<%- MerchantID %>" />
         <input type="text" name="TradeSha" value="<%- order.shaEncrypt %>" />
         <input type="text" name="TradeInfo" value="<%- order.aesEncrypt %>" />
@@ -24,7 +103,10 @@
         <input type="text" name="ItemDesc" value="<%- order.ItemDesc %>" />
         <input type="email" name="Email" value="<%- order.Email %>" />
         <button type="submit">送出</button>
-      </form>
-    </div>
-  </body>
+      </form> -->
+  </div>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+</body>
+
 </html>
