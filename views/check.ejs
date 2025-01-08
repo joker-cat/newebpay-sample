@@ -14,25 +14,6 @@
   <div id="app">
     <div class="container py-5">
       <h1 class="text-center mb-4">再次確認</h1>
-
-      <!-- <div class="row justify-content-center">
-            <div class="col-md-8">
-                <video id="videoPlayer" class="w-100 rounded border" controls>
-                    <source id="videoSource" src="" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        </div>
-
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-6">
-                <form class="input-group">
-                    <input id="videoUrl" type="text" class="form-control" placeholder="Enter video URL here...">
-                    <button class="btn btn-primary" type="button" onclick="loadVideo()">Load Video</button>
-                </form>
-            </div>
-        </div> -->
-
       <div class="row justify-content-center mt-5">
         <div class="col-md-8">
           <form action="<%- PayGateWay %>" method="post" class="bg-white p-4 rounded shadow">
@@ -86,24 +67,6 @@
         </div>
       </div>
     </div>
-    <!-- <form action="<%- PayGateWay %>" method="post">
-        <input type="text" name="MerchantID" value="<%- MerchantID %>" />
-        <input type="text" name="TradeSha" value="<%- order.shaEncrypt %>" />
-        <input type="text" name="TradeInfo" value="<%- order.aesEncrypt %>" />
-        <input type="text" name="TimeStamp" value="<%- order.TimeStamp %>" />
-        <input type="text" name="Version" value="<%- Version %>" />
-        <input type="text" name="NotifyUrl" value="<%- NotifyUrl %>" />
-        <input type="text" name="ReturnUrl" value="<%- ReturnUrl %>" />
-        <input
-          type="text"
-          name="MerchantOrderNo"
-          value="<%- order.MerchantOrderNo %>"
-        />
-        <input type="text" name="Amt" value="<%- order.Amt %>" />
-        <input type="text" name="ItemDesc" value="<%- order.ItemDesc %>" />
-        <input type="email" name="Email" value="<%- order.Email %>" />
-        <button type="submit">送出</button>
-      </form> -->
   </div>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
