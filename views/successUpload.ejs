@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="app">
+    <div class="container py-5">
+      <h1 class="text-center mb-4">
+        <%= title %>
+      </h1>
+      <div class="row justify-content-center mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <video id="videoPlayer" class="w-100 rounded border" controls>
+              <source id="videoSource" src="<%- src %>" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+</body>
+
+</html>
