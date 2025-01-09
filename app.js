@@ -3,11 +3,14 @@ const createError = require('http-errors');
 const express = require('express');
 const logger = require('morgan');
 const path = require('path');
+const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 
 // 載入環境變數（可選）
 dotenv.config();
+// dotenv.config({ path: './config.env' })
 
+// 路由
 const indexRouter = require('./routes/index');
 const uploadRouter = require('./routes/upload');
 const usersRouter = require('./routes/users');
@@ -22,6 +25,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/node_modules', express.static('node_modules'));
 

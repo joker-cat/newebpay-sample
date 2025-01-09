@@ -43,7 +43,7 @@ function compressVideo(inputPath, outputPath) {
 }
 
 // 影片上傳 API
-router.post("/", upload.single("video"), async (req, res) => {
+router.post("/video", upload.single("video"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).send("No file uploaded.");
