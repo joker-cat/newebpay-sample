@@ -17,7 +17,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT, 10), //10進制轉換
   connectionString: process.env.DATABASE_URL,
-  //(未處理) ssl: { rejectUnauthorized: false }, // 雲端資料庫常需要 SSL
+  ssl: { rejectUnauthorized: false }, // 雲端資料庫常需要 SSL
 });
 
 pool.connect((err, client, release) => {
