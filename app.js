@@ -49,4 +49,8 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
+app.all("*", (req, res) => {
+  res.send(`找不到 ${req.originalUrl} 路徑`);
+});
+
 module.exports = app;
