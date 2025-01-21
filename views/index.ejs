@@ -11,18 +11,8 @@
 
 <body>
   <div class="container py-5">
-    <h1 class="text-center mb-4">藍新 & 影片上傳 firebase</h1>
-
-    <!-- <div class="row justify-content-center">
-      <div class="col-md-8">
-        <video id="videoPlayer" class="w-100 rounded border" controls>
-          <source id="videoSource" src="" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      </div>
-    </div> -->
-
-    <div class="row justify-content-center mt-4">
+    <h2 class="text-center mb-4">影片上傳 firebase</h2>
+    <div class="row mb-5 justify-content-center">
       <div class="col-md-6">
         <form class="input-group" action="/upload/video" method="post" enctype="multipart/form-data">
           <input id="videoUrl" type="file" class="form-control" name="video" required />
@@ -31,7 +21,8 @@
       </div>
     </div>
 
-    <div class="row justify-content-center mt-5">
+    <h2 class="text-center mb-4">藍新</h2>
+    <div class="row justify-content-center mb-5">
       <div class="col-md-6">
         <form action="/createOrder" method="post" class="bg-white p-4 rounded shadow">
           <div class="mb-3">
@@ -52,25 +43,69 @@
       </div>
     </div>
 
-    <div class="container mt-5">
+    <h2 class="text-center mb-4">註冊</h2>
+    <div class="mb-5">
       <div class="row justify-content-center">
         <div class="col-md-6">
-          <h3 class="text-center mb-4">註冊</h3>
           <form action="/users/signup" method="post">
             <div class="mb-3">
+              <label for="nickname" class="form-label">暱稱</label>
+              <input type="text" pattern="\w{6,16}" id="nickname" name="nickname" class="form-control"
+                placeholder="請輸入您的暱稱" required />
+            </div>
+            <div class="mb-3">
               <label for="email" class="form-label">信箱</label>
-              <input type="email" id="email" name="email" class="form-control" placeholder="請輸入您的信箱" required />
+              <input type="text" id="email" name="email" class="form-control" placeholder="請輸入您的信箱" required />
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">密碼</label>
               <input type="password" id="password" name="password" class="form-control" placeholder="請輸入您的密碼"
                 required />
             </div>
+            <div class="mb-3">
+              <label for="confirmpassword" class="form-label">確認密碼</label>
+              <input type="password" id="confirmpassword" name="confirmpassword" class="form-control"
+                placeholder="請再次輸入您的密碼" required />
+            </div>
             <button type="submit" class="btn btn-primary w-100">註冊</button>
           </form>
         </div>
       </div>
     </div>
+
+    <h2 class="text-center mb-4">登入</h2>
+    <div class="mb-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form action="/users/login" method="post">
+            <div class="mb-3">
+              <label for="email" class="form-label">信箱</label>
+              <input type="text" id="email" name="email" class="form-control" placeholder="請輸入您的信箱" required />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">密碼</label>
+              <input type="password" id="password" name="password" class="form-control" placeholder="請輸入您的密碼"
+                required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">登入</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="text-center mb-4">密碼找回</h2>
+    <div class="mb-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form action="/users/forgot" method="post">
+            <div class="mb-3">
+              <label for="email" class="form-label">信箱</label>
+              <input type="text" id="email" name="email" class="form-control" placeholder="請輸入您的信箱" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">送出</button>
+          </form>
+        </div>
+      </div>
 
   </div>
   <!-- <form action="/createOrder" method="post">

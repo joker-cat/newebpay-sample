@@ -28,15 +28,38 @@ pool.connect((err, client, release) => {
   release();
 });
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+// 密碼找回
+router.post('/forgot', async function (req, res, next) {
+  console.log('forgot');
+
+  const { email } = req.body;
+  if (email.trim() === "") throw new Error("請填寫收件信箱");
+
+  try {
+    const result = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+
+    if (result.rowCount !== 1) throw new Error("請重新輸入收件信箱");
+    console.log(result.rows[0].password);
+    const email = result.rows[0].email;
+    res.render('successforgot', {
+      email
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 });
 
-
-// 測試 PostgreSQL 撈取資料
+// 測試註冊
 router.post('/signup', async function (req, res, next) {
-  const { email, password } = req.body;
+  const { nickname, email, password, confirmpassword } = req.body;
+  if (nickname.trim() === "" ||
+    email.trim() === "" ||
+    password.trim() === "" ||
+    confirmpassword.trim() === "") throw new Error("請填寫完整欄位資訊");
+  if (password !== confirmpassword) throw new Error("密碼請確認一致");
 
   // 雜湊加密(自動)
   const bcryptPassword = await bcrypt.hash(password, 12);
@@ -45,37 +68,57 @@ router.post('/signup', async function (req, res, next) {
   // const salt = bcrypt.genSaltSync(10);
   // const hash = bcrypt.hashSync("B4c0/\/", salt);
 
-
   try {
     const result = await pool.query(
-      "INSERT INTO users (email, password) VALUES ($1, $2)",
-      [email, bcryptPassword]
+      "INSERT INTO users (nickname, email, password) VALUES ($1, $2, $3)",
+      [nickname, email, bcryptPassword]
     );
 
     if (result.rowCount !== 1) throw new Error("註冊失敗");
-
     res.render('successSignup', {
-      email, bcryptPassword
+      nickname, email, bcryptPassword
     });
-
   } catch (err) {
-    // console.error(err);
     res.status(500).send(err.message);
   }
 });
 
+// 測試登入
+router.post('/login', async function (req, res, next) {
+  const { email, password } = req.body;
+  if (email.trim() === "" || password.trim() === "") throw new Error("請填寫完整欄位資訊");
 
-
-// 測試 PostgreSQL 撈取資料
-router.get('/sql', async function (req, res, next) {
   try {
-    const result = await pool.query("SELECT * FROM test_table");
-    res.json(result.rows);
+    const result = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+
+    if (result.rowCount !== 1) throw new Error("帳號或密碼錯誤");
+
+    const user = result.rows[0];
+    const isValid = await bcrypt.compare(password, user.password);
+
+    if (!isValid) throw new Error("帳號或密碼錯誤");
+
+    res.render('successLogin', {
+      nickname: user.nickname,
+    });
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
+    res.status(500).send(err.message);
   }
 });
+
+// 測試 PostgreSQL 撈取資料
+// router.get('/sql', async function (req, res, next) {
+//   try {
+//     const result = await pool.query("SELECT * FROM test_table");
+//     res.json(result.rows);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send("Server Error");
+//   }
+// });
 
 
 module.exports = router;
