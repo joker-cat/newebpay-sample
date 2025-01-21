@@ -3,8 +3,20 @@ const multer = require("multer");
 const ffmpeg = require('fluent-ffmpeg');
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 const fs = require('fs');
+const { Pool } = require("pg");
 const path = require('path');
 const bucket = require("../public/js/firebase-config");
+
+// PostgreSQL 連接設置
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: parseInt(process.env.DB_PORT, 10), //10進制轉換
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }, // 雲端資料庫常需要 SSL
+});
 
 const router = express.Router();
 
@@ -44,25 +56,33 @@ function compressVideo(inputPath, outputPath) {
 
 // 影片上傳 API
 router.post("/video", upload.single("video"), async (req, res) => {
+  const { cookieEmail } = req.body;
+
+  // const now = () => new Date;
   try {
     if (!req.file) {
       return res.status(400).send("No file uploaded.");
     }
+    const resultEmail = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [cookieEmail]
+    );
+    const email = resultEmail.rows[0].email.replace('@', '').replace('.', '');
+    const ext = path.extname(req.file.originalname);
 
     // 保存上傳的臨時檔案
+    const now = (() => Date.now())();
     const inputPath = `./compressed/${req.file.originalname}`;
-    const outputPath = `./compressed/compressed-${req.file.originalname}`;
-
+    const outputPath = `./compressed/${email + now + ext}`;
     // 將文件從 Buffer 寫入臨時文件
     fs.writeFileSync(inputPath, req.file.buffer);
 
     // 壓縮影片
-    const compressVideoResponse = await compressVideo(inputPath, outputPath);
-    console.log(compressVideoResponse);
+    await compressVideo(inputPath, outputPath);
 
     // 設定 Firebase 上傳目錄和文件名
     const folderPath = "coding-bit"; // 指定資料夾名稱
-    const filePath = `${folderPath}/compressed-${req.file.originalname}`; // 完整路徑
+    const filePath = `${folderPath}/compressed-${email + now + ext}`; // 完整路徑
     console.log(filePath);
 
     // 指定存儲桶中的文件路徑

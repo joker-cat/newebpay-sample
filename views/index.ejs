@@ -2,9 +2,7 @@
 <html>
 
 <head>
-  <title>
-    <%= title %>
-  </title>
+  <title>首頁</title>
   <link rel="stylesheet" href="/stylesheets/style.css" />
   <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -15,6 +13,8 @@
     <div class="row mb-5 justify-content-center">
       <div class="col-md-6">
         <form class="input-group" action="/upload/video" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="cookieEmail" value="<%= cookieEmail %>" />
+          <!-- <input type="text" value="<%= cookieEmail %>"> -->
           <input id="videoUrl" type="file" class="form-control" name="video" required />
           <button class="btn btn-primary" type="file" id="video" name="video">上傳</button>
         </form>
@@ -107,8 +107,8 @@
         </div>
       </div>
 
-  </div>
-  <!-- <form action="/createOrder" method="post">
+    </div>
+    <!-- <form action="/createOrder" method="post">
     <div>
       email
       <input type="email" name="Email" value="" />
@@ -128,8 +128,8 @@
     <input type="file" id="video" name="video" />
     <button type="submit">上傳</button>
   </form> -->
-  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
 </body>
 
 </html>

@@ -76,7 +76,7 @@ router.post('/signup', async function (req, res, next) {
 
     if (result.rowCount !== 1) throw new Error("註冊失敗");
     res.render('successSignup', {
-      nickname, email, bcryptPassword
+      nickname, email
     });
   } catch (err) {
     res.status(500).send(err.message);
@@ -108,17 +108,6 @@ router.post('/login', async function (req, res, next) {
     res.status(500).send(err.message);
   }
 });
-
-// 測試 PostgreSQL 撈取資料
-// router.get('/sql', async function (req, res, next) {
-//   try {
-//     const result = await pool.query("SELECT * FROM test_table");
-//     res.json(result.rows);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Server Error");
-//   }
-// });
 
 
 module.exports = router;
