@@ -6,6 +6,8 @@ const fs = require('fs');
 const { Pool } = require("pg");
 const path = require('path');
 const bucket = require("../public/js/firebase-config");
+const jwt = require('jsonwebtoken');
+
 
 // PostgreSQL 連接設置
 const pool = new Pool({
@@ -54,26 +56,33 @@ function compressVideo(inputPath, outputPath) {
   });
 }
 
+
+
+
 // 影片上傳 API
 router.post("/video", upload.single("video"), async (req, res) => {
-  const { cookieEmail } = req.body;
+  const { token } = req.body;
 
-  // const now = () => new Date;
   try {
-    if (!req.file) {
-      return res.status(400).send("No file uploaded.");
-    }
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET); // 解碼 token
+    let { email } = decoded;
+    if (!req.file) return res.status(400).send("No file uploaded.");
     const resultEmail = await pool.query(
       "SELECT * FROM users WHERE email = $1",
-      [cookieEmail]
+      [email]
     );
-    const email = resultEmail.rows[0].email.replace('@', '').replace('.', '');
-    const ext = path.extname(req.file.originalname);
+    if (resultEmail.rows.length !== 1) throw new Error("查無使用者");
+
+    // 取得使用者 email @ 之前的字串
+    email = resultEmail.rows[0].email.split('@')[0];
+
+    const ext = path.extname(req.file.originalname);// 取得副檔名
+    const now = (() => Date.now())(); // 取得當前時間戳
 
     // 保存上傳的臨時檔案
-    const now = (() => Date.now())();
     const inputPath = `./compressed/${req.file.originalname}`;
     const outputPath = `./compressed/${email + now + ext}`;
+    
     // 將文件從 Buffer 寫入臨時文件
     fs.writeFileSync(inputPath, req.file.buffer);
 

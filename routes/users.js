@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const dotenv = require("dotenv");
+const jwt = require('jsonwebtoken');
 
 const { Pool } = require("pg");
 const router = express.Router();
@@ -26,30 +27,6 @@ pool.connect((err, client, release) => {
   }
   console.log("Connected to the database");
   release();
-});
-
-// 密碼找回
-router.post('/forgot', async function (req, res, next) {
-  console.log('forgot');
-
-  const { email } = req.body;
-  if (email.trim() === "") throw new Error("請填寫收件信箱");
-
-  try {
-    const result = await pool.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email]
-    );
-
-    if (result.rowCount !== 1) throw new Error("請重新輸入收件信箱");
-    console.log(result.rows[0].password);
-    const email = result.rows[0].email;
-    res.render('successforgot', {
-      email
-    });
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
 });
 
 // 測試註冊
@@ -100,14 +77,42 @@ router.post('/login', async function (req, res, next) {
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) throw new Error("帳號或密碼錯誤");
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_DAY
+    });
+    // console.log(token);
 
     res.render('successLogin', {
       nickname: user.nickname,
+      token
     });
   } catch (err) {
     res.status(500).send(err.message);
   }
 });
 
+// 密碼找回
+router.post('/forgot', async function (req, res, next) {
+  console.log('forgot');
+
+  const { email } = req.body;
+  if (email.trim() === "") throw new Error("請填寫收件信箱");
+
+  try {
+    const result = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+
+    if (result.rowCount !== 1) throw new Error("請重新輸入收件信箱");
+    console.log(result.rows[0].password);
+    const email = result.rows[0].email;
+    res.render('successforgot', {
+      email
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
 module.exports = router;

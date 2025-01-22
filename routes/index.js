@@ -18,7 +18,9 @@ const RespondType = 'JSON';
 
 // 建立訂單
 router.get('/', function (req, res, next) {
-  res.render('index', { cookieEmail: 'abc123@gmail.com' });
+  // res.render('index', { cookieEmail: 'abc123@gmail.com' });
+  res.render('index', { title: '我是首頁' });
+  
 });
 router.post('/createOrder', (req, res) => {
   const data = req.body;

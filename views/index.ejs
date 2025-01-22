@@ -2,47 +2,18 @@
 <html>
 
 <head>
-  <title>首頁</title>
+  <title></title>
   <link rel="stylesheet" href="/stylesheets/style.css" />
   <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
   <div class="container py-5">
-    <h2 class="text-center mb-4">影片上傳 firebase</h2>
-    <div class="row mb-5 justify-content-center">
-      <div class="col-md-6">
-        <form class="input-group" action="/upload/video" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="cookieEmail" value="<%= cookieEmail %>" />
-          <!-- <input type="text" value="<%= cookieEmail %>"> -->
-          <input id="videoUrl" type="file" class="form-control" name="video" required />
-          <button class="btn btn-primary" type="file" id="video" name="video">上傳</button>
-        </form>
-      </div>
-    </div>
+    <h1 class="text-center mb-4">
+      <%= title %>
+    </h1>
 
-    <h2 class="text-center mb-4">藍新</h2>
-    <div class="row justify-content-center mb-5">
-      <div class="col-md-6">
-        <form action="/createOrder" method="post" class="bg-white p-4 rounded shadow">
-          <div class="mb-3">
-            <label for="email" class="form-label">信箱</label>
-            <input type="email" id="email" name="Email" class="form-control" placeholder="coding.bit@gmail.com"
-              required>
-          </div>
-          <div class="mb-3">
-            <label for="amt" class="form-label">商品售價</label>
-            <input type="number" id="amt" name="Amt" class="form-control" placeholder="1000" required>
-          </div>
-          <div class="mb-3">
-            <label for="itemDesc" class="form-label">商品名稱</label>
-            <input type="text" id="itemDesc" name="ItemDesc" class="form-control" placeholder="JavaScript面試超人" required>
-          </div>
-          <button type="submit" class="btn btn-success w-100">送出</button>
-        </form>
-      </div>
-    </div>
-
+    <hr />
     <h2 class="text-center mb-4">註冊</h2>
     <div class="mb-5">
       <div class="row justify-content-center">
@@ -72,6 +43,7 @@
         </div>
       </div>
     </div>
+    <hr />
 
     <h2 class="text-center mb-4">登入</h2>
     <div class="mb-4">
@@ -92,23 +64,11 @@
         </div>
       </div>
     </div>
+    <hr />
 
-    <h2 class="text-center mb-4">密碼找回</h2>
-    <div class="mb-4">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <form action="/users/forgot" method="post">
-            <div class="mb-3">
-              <label for="email" class="form-label">信箱</label>
-              <input type="text" id="email" name="email" class="form-control" placeholder="請輸入您的信箱" required />
-            </div>
-            <button type="submit" class="btn btn-primary w-100">送出</button>
-          </form>
-        </div>
-      </div>
-
-    </div>
-    <!-- <form action="/createOrder" method="post">
+    
+  </div>
+  <!-- <form action="/createOrder" method="post">
     <div>
       email
       <input type="email" name="Email" value="" />
@@ -128,8 +88,8 @@
     <input type="file" id="video" name="video" />
     <button type="submit">上傳</button>
   </form> -->
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
 </body>
 
 </html>
