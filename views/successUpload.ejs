@@ -13,7 +13,7 @@
 <body>
   <div id="app">
     <div class="container py-5">
-      <h1 class="text-center mb-4">
+      <!-- <h1 class="text-center mb-4">
         <%= title %>
       </h1>
       <div class="row justify-content-center mt-5">
@@ -25,11 +25,50 @@
             </video>
           </div>
         </div>
-      </div>
+      </div> -->
+
+
+      <h2>上傳影片並轉換為 HLS</h2>
+      <input type="file" id="fileInput" accept="video/*">
+      <button onclick="uploadVideo()">上傳</button>
+      <p id="status"></p>
     </div>
   </div>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
+  <script>
+    function uploadVideo() {
+      const fileInput = document.getElementById('fileInput');
+      if (fileInput.files.length === 0) {
+        alert("請選擇一個影片檔案！");
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append("video", file);
+
+      document.getElementById("status").innerText = "上傳中...";
+
+      fetch("http://localhost:5000/upload", {
+        method: "POST",
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById("status").innerHTML =
+              `轉換完成！<br> <a href="${data.url}" target="_blank">觀看影片</a>`;
+          } else {
+            document.getElementById("status").innerText = "轉換失敗！";
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          document.getElementById("status").innerText = "上傳失敗！";
+        });
+    }
+  </script>
 </body>
 
 </html>
