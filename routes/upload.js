@@ -56,9 +56,6 @@ function compressVideo(inputPath, outputPath) {
   });
 }
 
-
-
-
 // 影片上傳 API
 router.post("/video", upload.single("video"), async (req, res) => {
   const { token } = req.body;
@@ -82,7 +79,7 @@ router.post("/video", upload.single("video"), async (req, res) => {
     // 保存上傳的臨時檔案
     const inputPath = `./compressed/${req.file.originalname}`;
     const outputPath = `./compressed/${email + now + ext}`;
-    
+
     // 將文件從 Buffer 寫入臨時文件
     fs.writeFileSync(inputPath, req.file.buffer);
 
